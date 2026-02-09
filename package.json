@@ -1,0 +1,20 @@
+{
+  "name": "contextfinder.ai",
+  "version": "1.0.0",
+  "description": "A contextually aware chrome extension made to Summarize needlessly long and redundant academic pages for the user, allowing the user to ask questions and receive answers quickly just by dropping off a pdf",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaxIngram05/ContextFinder.ai.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MaxIngram05/ContextFinder.ai/issues"
+  },
+  "homepage": "https://github.com/MaxIngram05/ContextFinder.ai#readme"
+}
