@@ -3,22 +3,20 @@
     "rootDir": "./src",
     "outDir": "./dist",
 
-    "module": "nodenext",
-    "target": "esnext",
+    "module": "esnext",
+    "target": "es6",
+    "moduleResolution": "bundler",
     "lib": ["esnext", "dom", "dom.iterable"],
 
     "sourceMap": true,
-    "declaration": true,
 
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "isolatedModules": true,
     "skipLibCheck": true,
-    "moduleDetection": "force",
-    "jsx": "react-jsx",
-
-    "verbatimModuleSyntax": true,
-    "noUncheckedSideEffectImports": true
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react-jsx"
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]
