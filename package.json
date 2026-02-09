@@ -1,20 +1,33 @@
 {
   "name": "contextfinder.ai",
+  "private": true,
   "version": "1.0.0",
+  "type": "module",
   "description": "A contextually aware chrome extension made to Summarize needlessly long and redundant academic pages for the user, allowing the user to ask questions and receive answers quickly just by dropping off a pdf",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MaxIngram05/ContextFinder.ai.git"
   },
-  "keywords": [],
-  "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/MaxIngram05/ContextFinder.ai/issues"
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   },
-  "homepage": "https://github.com/MaxIngram05/ContextFinder.ai#readme"
+  "devDependencies": {
+    "@types/chrome": "^0.1.36",
+    "@types/react": "^19.2.5",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "typescript": "~5.9.3",
+    "vite": "npm:rolldown-vite@7.2.5"
+  },
+  "overrides": {
+    "vite": "npm:rolldown-vite@7.2.5"
+  }
 }
