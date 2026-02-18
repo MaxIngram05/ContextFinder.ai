@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "ContextFinder.ai",
+  "version": "1.0.0",
+  "description": "A contextually aware chrome extension that summarizes academic pages and answers questions from PDFs.",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "ContextFinder.ai"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["storage", "activeTab", "scripting"],
+  "host_permissions": []
+}
