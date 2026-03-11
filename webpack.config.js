@@ -76,9 +76,15 @@ export default (env_, argv) => ({
     new CopyWebpackPlugin({
       patterns: [
         {
-          from:            path.resolve(__dirname, "public"),
-          to:              path.resolve(__dirname, "dist"),
+          from:             path.resolve(__dirname, "public"),
+          to:               path.resolve(__dirname, "dist"),
           noErrorOnMissing: true,
+        },
+        // PDF.js worker — must be a separate file so Chrome can run it as a Worker.
+        // The popup references it via chrome.runtime.getURL('pdf.worker.min.mjs').
+        {
+          from: path.resolve(__dirname, "node_modules/pdfjs-dist/build/pdf.worker.min.mjs"),
+          to:   "pdf.worker.min.mjs",
         },
       ],
     }),

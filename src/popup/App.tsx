@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, DragEvent, ChangeEvent, KeyboardEvent } fr
 import './App.css'
 import type { ExtensionMessage, MessageResponse } from '../types/messages'
 import { STORAGE_KEYS } from '../constants'
+import { extractPdfText, MIN_PDF_TEXT_CHARS } from './pdf'
 
 type Mode = 'page' | 'pdf'
 type LoadingPhase = 'scrape' | 'summarize' | 'ask' | null
@@ -125,31 +126,52 @@ export default function App() {
     }
   }
 
-  function processPdfFile(file: File) {
+  async function processPdfFile(file: File) {
     if (!file.name.toLowerCase().endsWith('.pdf')) {
       setError('Only PDF files are supported.')
       return
     }
     setError(null)
     setLoadingPhase('scrape')
-    const reader = new FileReader()
-    reader.onload = async () => {
-      const base64 = (reader.result as string).split(',')[1] ?? ''
-      try {
-        const res = await sendMessage<string>({ type: 'PROCESS_PDF', fileName: file.name, content: base64 })
-        if (res.status === 'error') throw new Error(res.error ?? 'Failed to process PDF')
+
+    try {
+      // ── Fast path: PDF.js extracts text directly (no network call) ──
+      const text = await extractPdfText(file)
+
+      if (text.length >= MIN_PDF_TEXT_CHARS) {
+        // Text-based PDF — use extracted text directly
         setFileName(file.name)
-        setContent(res.data ?? base64)
+        setContent(`Source: ${file.name}\n\n${text}`)
         setSummary('')
         setChat([])
-      } catch (e) {
-        setError((e as Error).message)
-      } finally {
-        setLoadingPhase(null)
+      } else {
+        // Scanned PDF (image-only) — fall back to OCR.space via background
+        const base64 = await readFileAsBase64(file)
+        const res = await sendMessage<string>({
+          type: 'PROCESS_PDF',
+          fileName: file.name,
+          content: base64,
+        })
+        if (res.status === 'error') throw new Error(res.error ?? 'OCR failed')
+        setFileName(file.name)
+        setContent(res.data ?? '')
+        setSummary('')
+        setChat([])
       }
+    } catch (e) {
+      setError((e as Error).message)
+    } finally {
+      setLoadingPhase(null)
     }
-    reader.onerror = () => { setError('Could not read file.'); setLoadingPhase(null) }
-    reader.readAsDataURL(file)
+  }
+
+  function readFileAsBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onload  = () => resolve((reader.result as string).split(',')[1] ?? '')
+      reader.onerror = () => reject(new Error('Could not read file.'))
+      reader.readAsDataURL(file)
+    })
   }
 
   function handleDrop(e: DragEvent<HTMLDivElement>) {
