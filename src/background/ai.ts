@@ -1,15 +1,20 @@
 import { fetchWithTimeout } from './fetch-timeout'
+import { STORAGE_KEYS } from '../constants'
 
 const ANTHROPIC_ENDPOINT = 'https://api.anthropic.com/v1/messages'
 const ANTHROPIC_VERSION   = '2023-06-01'
 const MODEL               = 'claude-haiku-4-5-20251001'
 const MAX_TOKENS          = 1024
-// Injected by webpack DefinePlugin at build time — never appears in source control
-const ANTHROPIC_API_KEY: string = process.env.ANTHROPIC_API_KEY ?? ''
 
 interface AnthropicResponse {
   content?: Array<{ type: string; text: string }>
   error?:   { type: string; message: string }
+}
+
+/** Read the API key from Chrome sync storage at call time — no build-time baking. */
+async function getApiKey(): Promise<string> {
+  const result = await chrome.storage.sync.get(STORAGE_KEYS.ANTHROPIC_KEY)
+  return (result[STORAGE_KEYS.ANTHROPIC_KEY] as string | undefined) ?? ''
 }
 
 export async function summarizeContent(content: string): Promise<string> {
@@ -31,19 +36,20 @@ export async function answerQuestion(question: string, context: string): Promise
 }
 
 async function callClaude(prompt: string): Promise<string> {
-  if (!ANTHROPIC_API_KEY) {
+  const apiKey = await getApiKey()
+  if (!apiKey) {
     throw new Error(
-      'Anthropic API key not configured. ' +
-      'Add ANTHROPIC_API_KEY=<your-key> to your .env file and rebuild.',
+      'Anthropic API key not set. ' +
+      'Click the ⚙ icon in the extension to add your key.',
     )
   }
 
   const res = await fetchWithTimeout(ANTHROPIC_ENDPOINT, {
     method:  'POST',
     headers: {
-      'x-api-key':        ANTHROPIC_API_KEY,
+      'x-api-key':         apiKey,
       'anthropic-version': ANTHROPIC_VERSION,
-      'content-type':     'application/json',
+      'content-type':      'application/json',
     },
     body: JSON.stringify({
       model:      MODEL,

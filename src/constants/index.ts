@@ -6,9 +6,10 @@ export const API_ENDPOINTS = {
 } as const;
 
 export const STORAGE_KEYS = {
-  SUMMARIES: 'cf_summaries',
-  SETTINGS: 'cf_settings',
-  HISTORY: 'cf_history',
+  SUMMARIES:     'cf_summaries',
+  SETTINGS:      'cf_settings',
+  HISTORY:       'cf_history',
+  ANTHROPIC_KEY: 'cf_anthropic_key',
 } as const;
 
 export const EXTENSION_CONFIG = {
