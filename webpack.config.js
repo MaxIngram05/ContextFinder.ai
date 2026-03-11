@@ -9,6 +9,7 @@ export default (env, argv) => ({
   entry: {
     popup: path.resolve(__dirname, "src/popup/main.tsx"),
     background: path.resolve(__dirname, "src/background/index.ts"),
+    content: path.resolve(__dirname, "src/content/index.ts"),
   },
   output: {
     path: path.resolve(__dirname, "dist"),

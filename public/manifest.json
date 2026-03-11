@@ -23,5 +23,12 @@
     "service_worker": "background.js"
   },
   "permissions": ["storage", "activeTab", "scripting", "tabs", "downloads"],
-  "host_permissions": []
+  "host_permissions": ["*://*/*"],
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
 }
