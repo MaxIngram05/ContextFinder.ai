@@ -1,10 +1,3 @@
-export const API_BASE_URL = process.env.API_BASE_URL ?? '';
-
-export const API_ENDPOINTS = {
-  SUMMARIZE: '/summarize',
-  ASK: '/ask',
-} as const;
-
 export const STORAGE_KEYS = {
   SUMMARIES:     'cf_summaries',
   SETTINGS:      'cf_settings',

@@ -22,8 +22,14 @@
   "background": {
     "service_worker": "background.js"
   },
-  "permissions": ["storage", "activeTab", "scripting", "tabs", "downloads"],
+  "permissions": ["storage", "activeTab", "scripting", "tabs"],
   "host_permissions": ["*://*/*"],
+  "web_accessible_resources": [
+    {
+      "resources": ["pdf.worker.min.mjs"],
+      "matches": ["<all_urls>"]
+    }
+  ],
   "content_scripts": [
     {
       "matches": ["*://*/*"],
