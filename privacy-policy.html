@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — ContextFinder.ai</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f0f14;
+      --surface: #16161e;
+      --border: #2a2a3a;
+      --accent: #6366f1;
+      --accent-dim: rgba(99,102,241,0.12);
+      --text: #d8d8ee;
+      --muted: #6868a0;
+      --heading: #f0f0ff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.75;
+      min-height: 100vh;
+    }
+
+    /* grid lines background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: 0.25;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 80px 32px 120px;
+    }
+
+    /* header */
+    .site-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .site-label::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    h1 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: clamp(26px, 5vw, 38px);
+      font-weight: 600;
+      color: var(--heading);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .effective {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      margin-bottom: 56px;
+    }
+
+    /* summary card */
+    .summary-card {
+      background: var(--accent-dim);
+      border: 1px solid rgba(99,102,241,0.3);
+      border-radius: 6px;
+      padding: 20px 24px;
+      margin-bottom: 56px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .summary-icon {
+      font-size: 18px;
+      line-height: 1.75;
+      flex-shrink: 0;
+    }
+    .summary-text {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.65;
+    }
+    .summary-text strong {
+      color: var(--heading);
+      font-weight: 500;
+    }
+
+    /* sections */
+    section {
+      margin-bottom: 48px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--border);
+    }
+    section:last-of-type {
+      border-bottom: none;
+    }
+
+    .section-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--heading);
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+    }
+
+    p { margin-bottom: 14px; }
+    p:last-child { margin-bottom: 0; }
+
+    /* data table */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 13px;
+    }
+    .data-table th {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: left;
+      padding: 8px 14px;
+      border-bottom: 1px solid var(--border);
+      font-weight: 400;
+    }
+    .data-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(42,42,58,0.6);
+      vertical-align: top;
+      color: var(--text);
+      line-height: 1.55;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table td:first-child {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+    .tag {
+      display: inline-block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 3px;
+      letter-spacing: 0.05em;
+    }
+    .tag-no  { background: rgba(74,222,128,0.1);  color: #4ade80; border: 1px solid rgba(74,222,128,0.25); }
+    .tag-yes { background: rgba(99,102,241,0.12); color: #818cf8; border: 1px solid rgba(99,102,241,0.3); }
+
+    /* contact */
+    .contact-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px 24px;
+      font-size: 13px;
+      margin-top: 16px;
+    }
+    .contact-block a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .contact-block a:hover { text-decoration: underline; }
+
+    /* footer */
+    footer {
+      margin-top: 80px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="site-label">ContextFinder.ai</div>
+  <h1>Privacy Policy</h1>
+  <p class="effective">Effective date: 2025-01-01 &nbsp;·&nbsp; Last updated: 2025-01-01</p>
+
+  <div class="summary-card">
+    <span class="summary-icon">◈</span>
+    <p class="summary-text">
+      <strong>Short version:</strong> ContextFinder.ai collects only aggregate, anonymous usage counts —
+      the total number of users and the number of requests made. We do not collect your name, email,
+      browsing history, PDF contents, or any personally identifiable information.
+      Your API key is stored locally on your device and never transmitted to us.
+    </p>
+  </div>
+
+  <section>
+    <div class="section-num">01</div>
+    <h2>Who We Are</h2>
+    <p>ContextFinder.ai is a Chrome extension that summarizes academic PDFs and answers questions about their content using AI. The extension is developed and maintained by Maximilian Ingram.</p>
+  </section>
+
+  <section>
+    <div class="section-num">02</div>
+    <h2>What We Collect</h2>
+    <p>We collect only the following anonymous, aggregate data:</p>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Data point</th>
+          <th>What it is</th>
+          <th>Personally identifiable?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>user_count</td>
+          <td>Total number of distinct extension installs that have made at least one request</td>
+          <td><span class="tag tag-no">NO</span></td>
+        </tr>
+        <tr>
+          <td>request_count</td>
+          <td>Total number of summarize or Q&amp;A requests processed across all users</td>
+          <td><span class="tag tag-no">NO</span></td>
+        </tr>
+        <tr>
+          <td>requests_per_user</td>
+          <td>A per-install request counter used to enforce freemium usage limits. Stored as an anonymous install ID mapped to a count — no account, name, or email is ever associated with it.</td>
+          <td><span class="tag tag-no">NO</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p>No PDF content, page text, questions, summaries, IP addresses, or any other personal data is ever transmitted to or stored by ContextFinder.ai's servers.</p>
+  </section>
+
+  <section>
+    <div class="section-num">03</div>
+    <h2>What We Do Not Collect</h2>
+    <p>We explicitly do not collect:</p>
+    <table class="data-table">
+      <thead>
+        <tr><th>Data type</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Name / email / address</td><td><span class="tag tag-no">NOT COLLECTED</span></td></tr>
+        <tr><td>Browsing history or visited URLs</td><td><span class="tag tag-no">NOT COLLECTED</span></td></tr>
+        <tr><td>PDF or document contents</td><td><span class="tag tag-no">NOT COLLECTED</span></td></tr>
+        <tr><td>Questions or summaries generated</td><td><span class="tag tag-no">NOT COLLECTED</span></td></tr>
+        <tr><td>Anthropic API key</td><td><span class="tag tag-no">NOT COLLECTED</span></td></tr>
+        <tr><td>IP address</td><td><span class="tag tag-no">NOT COLLECTED</span></td></tr>
+        <tr><td>Device identifiers</td><td><span class="tag tag-no">NOT COLLECTED</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <div class="section-num">04</div>
+    <h2>Your API Key</h2>
+    <p>ContextFinder.ai requires you to provide your own Anthropic API key to function. This key is stored exclusively in <code>chrome.storage.sync</code> on your local device and synced by Chrome across your own signed-in devices. The key is sent directly from your browser to Anthropic's API — it is never routed through, logged by, or accessible to ContextFinder.ai's servers.</p>
+  </section>
+
+  <section>
+    <div class="section-num">05</div>
+    <h2>Third-Party Services</h2>
+    <p>When you use the extension, your PDF content or page text is sent directly to <strong>Anthropic's API</strong> to generate summaries and answers. This transmission is governed by <a href="https://www.anthropic.com/legal/privacy" style="color:var(--accent);">Anthropic's Privacy Policy</a>. ContextFinder.ai has no control over how Anthropic processes this data.</p>
+    <p>For scanned PDFs that cannot be parsed by PDF.js, content may optionally be sent to the <strong>OCR.space API</strong> for text extraction, governed by their respective privacy policy.</p>
+  </section>
+
+  <section>
+    <div class="section-num">06</div>
+    <h2>Data Retention</h2>
+    <p>Aggregate usage counts (total users, total requests, per-install request count) are retained indefinitely for the purpose of operating the freemium usage limits. As these counts contain no personal data, there is nothing to delete on a per-user basis. If you uninstall the extension, your local <code>chrome.storage.sync</code> data is cleared by Chrome.</p>
+  </section>
+
+  <section>
+    <div class="section-num">07</div>
+    <h2>Children's Privacy</h2>
+    <p>ContextFinder.ai is not directed at children under the age of 13. We do not knowingly collect any information from children.</p>
+  </section>
+
+  <section>
+    <div class="section-num">08</div>
+    <h2>Changes to This Policy</h2>
+    <p>If we materially change what data we collect, we will update the effective date at the top of this page and, where appropriate, notify users via the Chrome Web Store listing. Continued use of the extension after any changes constitutes acceptance of the updated policy.</p>
+  </section>
+
+  <section>
+    <div class="section-num">09</div>
+    <h2>Contact</h2>
+    <p>Questions or concerns about this privacy policy can be directed to:</p>
+    <div class="contact-block">
+      Maximilian Ingram<br>
+      <a href="mailto:privacy@contextfinder.ai">privacy@contextfinder.ai</a>
+    </div>
+  </section>
+
+  <footer>
+    <span>ContextFinder.ai</span>
+    <span>Privacy Policy · v1.0</span>
+  </footer>
+
+</div>
+</body>
+</html>
