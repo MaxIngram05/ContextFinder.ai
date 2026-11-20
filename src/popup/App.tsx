@@ -3,6 +3,7 @@ import './App.css'
 import type { ExtensionMessage, MessageResponse } from '../types/messages'
 import { STORAGE_KEYS } from '../constants'
 import { extractPdfText, MIN_PDF_TEXT_CHARS } from './pdf'
+import Markdown from './Markdown'
 
 type Mode = 'page' | 'pdf'
 type LoadingPhase = 'scrape' | 'summarize' | 'ask' | null
@@ -70,7 +71,7 @@ export default function App() {
   const [saveStatus, setSaveStatus]     = useState<SaveStatus>(null)
 
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const chatEndRef   = useRef<HTMLDivElement>(null)
+  const lastQuestionRef = useRef<HTMLDivElement>(null)
   const loading      = loadingPhase !== null
 
   // Load key-set state on mount
@@ -203,6 +204,7 @@ export default function App() {
     setError(null)
     setChat(prev => [...prev, { role: 'user', text: q }])
     setLoadingPhase('ask')
+    setTimeout(() => lastQuestionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50)
     try {
       const res = await sendMessage<string>({ type: 'ASK_QUESTION', question: q, context: content })
       if (res.status === 'error') throw new Error(res.error ?? 'No answer received')
@@ -211,7 +213,8 @@ export default function App() {
       setChat(prev => [...prev, { role: 'assistant', text: `Error: ${(e as Error).message}` }])
     } finally {
       setLoadingPhase(null)
-      setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 50)
+      // Keep the question pinned at the top so it stays visible above the answer
+      setTimeout(() => lastQuestionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50)
     }
   }
 
@@ -413,7 +416,7 @@ export default function App() {
               <section className="section">
                 <div className="result-box">
                   <div className="result-label">Summary</div>
-                  <p className="result-text">{summary}</p>
+                  <div className="result-text"><Markdown text={summary} /></div>
                 </div>
               </section>
             )}
@@ -424,19 +427,25 @@ export default function App() {
                 <div className="qa-label">Ask a question</div>
                 {chat.length > 0 && (
                   <div className="chat-history" aria-live="polite">
-                    {chat.map((msg, i) => (
-                      <div key={i} className={`chat-msg chat-msg--${msg.role}`}>
-                        <span className="chat-role">{msg.role === 'user' ? 'You' : 'AI'}</span>
-                        <span className="chat-text">{msg.text}</span>
-                      </div>
-                    ))}
+                    {chat.map((msg, i) => {
+                      const isLastQuestion = msg.role === 'user' &&
+                        !chat.slice(i + 1).some(m => m.role === 'user')
+                      return (
+                        <div key={i} ref={isLastQuestion ? lastQuestionRef : undefined}
+                          className={`chat-msg chat-msg--${msg.role}`}>
+                          <span className="chat-role">{msg.role === 'user' ? 'You' : 'AI'}</span>
+                          {msg.role === 'assistant'
+                            ? <div className="chat-text chat-text--md"><Markdown text={msg.text} /></div>
+                            : <span className="chat-text">{msg.text}</span>}
+                        </div>
+                      )
+                    })}
                     {loadingPhase === 'ask' && (
                       <div className="chat-msg chat-msg--assistant">
                         <span className="chat-role">AI</span>
                         <span className="spinner" />
                       </div>
                     )}
-                    <div ref={chatEndRef} />
                   </div>
                 )}
                 <div className="qa-row">
