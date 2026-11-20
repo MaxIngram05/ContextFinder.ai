@@ -50,6 +50,9 @@ async function callClaude(prompt: string): Promise<string> {
       'x-api-key':         apiKey,
       'anthropic-version': ANTHROPIC_VERSION,
       'content-type':      'application/json',
+      // Required for requests from a browser origin (the extension service
+      // worker). Safe here: the key is the user's own, kept in chrome.storage.
+      'anthropic-dangerous-direct-browser-access': 'true',
     },
     body: JSON.stringify({
       model:      MODEL,

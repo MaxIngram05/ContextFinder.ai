@@ -6,11 +6,12 @@ import { EXTENSION_CONFIG } from '../constants'
 // that webpack copies into dist/ via CopyPlugin.
 // Extension context: use chrome.runtime.getURL so the URL is CSP-safe and
 // points to the worker bundled inside the extension package.
-// Outside an extension (e.g. dev server), leave workerSrc unset — PDF.js
-// will log a warning but won't crash; dev-server testing is limited anyway.
-if (typeof chrome !== 'undefined' && chrome.runtime?.getURL) {
-  GlobalWorkerOptions.workerSrc = chrome.runtime.getURL('pdf.worker.min.mjs')
-}
+// Outside an extension (e.g. dev server), fall back to a relative URL — the
+// worker is served next to popup.html. PDF.js throws if workerSrc is unset.
+GlobalWorkerOptions.workerSrc =
+  typeof chrome !== 'undefined' && chrome.runtime?.getURL
+    ? chrome.runtime.getURL('pdf.worker.min.mjs')
+    : new URL('pdf.worker.min.mjs', document.baseURI).href
 
 // ── Public API ────────────────────────────────────────────────────────────────
 
